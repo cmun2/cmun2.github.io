@@ -102,13 +102,16 @@ export default ((userOpts?: Partial<Options>) => {
   }
 
   LanguageSwitcher.css = `
+/* SIGNAL / SYSTEM: the switcher is an operational label, not navigation
+   chrome — mono, tracked, uppercase, sitting on the header hairline. */
 .language-switcher {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.85rem;
-  font-family: var(--headerFont);
-  letter-spacing: 0.04em;
+  gap: 0.45rem;
+  font-family: var(--codeFont);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
 }
 
 .language-switcher-sep {
@@ -119,16 +122,25 @@ export default ((userOpts?: Partial<Options>) => {
 .language-switcher-item {
   text-decoration: none;
   color: var(--gray);
+  padding: 0.2rem 0.1rem;
 }
 
+/* The page you are on. Marked by an underline as well as by weight and
+   colour, so the state survives a monochrome rendering. */
 .language-switcher-item.current {
-  color: var(--darkgray);
+  color: var(--dark);
   font-weight: 700;
+  box-shadow: inset 0 -2px 0 0 var(--secondary);
 }
 
+/* The common case: no counterpart exists. Struck through rather than merely
+   dimmed — "there is no English version" must not be a colour-only claim. */
 .language-switcher-item.unavailable {
-  color: var(--lightgray);
+  color: var(--gray);
+  opacity: 0.55;
   cursor: not-allowed;
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
 }
 
 a.language-switcher-item:hover {

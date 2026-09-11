@@ -21,6 +21,7 @@
     "blog:publish": "pnpm blog:validate && pnpm blog:guard && pnpm blog:sync && pnpm blog:guard && pnpm blog:links && pnpm blog:build",
     "blog:preview": "pnpm blog:sync && ./quartz/bootstrap-cli.mjs build --serve",
     "blog:test-guard": "node scripts/test-guard.mjs",
+    "blog:test-lang": "node scripts/check-bilingual.mjs",
     "blog:migrate": "node scripts/migrate-inblog.mjs",
     "docs": "npx quartz build --serve -d docs",
     "check": "tsc --noEmit && npx prettier . --check",

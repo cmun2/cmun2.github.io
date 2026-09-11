@@ -5,8 +5,9 @@ static, deployed free to GitHub Pages.
 
 Written by [Chang Yong Mun](https://github.com/cmun2), frontend engineer at AhnLab.
 
-**Visual design has not been done.** This is Quartz's stock theme on purpose —
-structure, plumbing and the KO/EN machinery first, appearance later.
+The site is skinned in **SIGNAL / SYSTEM**, the same design system as the
+portfolio at `~/Projects/portfolio/changyong-portfolio` — see
+[Visual design](#visual-design) below.
 
 ---
 
@@ -16,6 +17,9 @@ structure, plumbing and the KO/EN machinery first, appearance later.
 pnpm install          # pnpm 10.5.2, Node 22+
 pnpm blog:publish     # validate → guard → sync → guard → links → build
 pnpm blog:preview     # sync, then serve on http://localhost:8080 with live reload
+
+pnpm blog:test-guard  # plant six leak scenarios, assert all six are refused
+pnpm blog:test-lang   # assert the KO/EN machinery in the built public/ tree
 ```
 
 > **Use `pnpm`, not `npm`.** Quartz pins `npm >= 10.9.2` in `engines` with
@@ -157,13 +161,15 @@ Workflow:
 5. **Publish.** The switcher and hreflang pick it up automatically the moment
    the counterpart exists — nothing to register anywhere.
 
-Two worked examples, both rewrites of Korean posts, both with a matching
+Three worked examples, all rewrites of Korean posts, all with a matching
 `translationKey`:
 
 - `en/engineering/hydration-mismatch-was-not-the-bug.md`
   ← `ko/engineering/ssr-hydration-node-mismatch.md`
 - `en/engineering/why-i-kept-setinterval.md`
   ← `ko/engineering/requestanimationframe-vs-setinterval.md`
+- `en/engineering/one-vault-two-gates.md`
+  ← `ko/engineering/publishing-from-a-private-vault.md`
 
 Four posts in `en/` were written in English originally and have no Korean
 counterpart. That is fine — the switcher shows KO greyed out.
@@ -198,7 +204,86 @@ Both are emitted by Quartz's `ContentIndex` plugin and land at the root of the
 built site, i.e. `https://cmun2.github.io/sitemap.xml` and
 `https://cmun2.github.io/index.xml`.
 
+Every claim in this section is checked against the built tree rather than
+trusted:
+
+```bash
+pnpm blog:build && pnpm blog:test-lang
+```
+
+`scripts/check-bilingual.mjs` walks `public/` and asserts that each page is
+self-canonical; that each hreflang set includes the page's own language, names
+every counterpart, is referenced back by each counterpart, and carries an
+`x-default`; that `<html lang>` agrees with the language tree the page sits in;
+and that the switcher either links to a file that exists in the right language
+and links back, or renders a disabled, non-anchor span. Tag pages and the 404
+are checked for the opposite — a canonical, and deliberately no switcher and no
+hreflang.
+
 ---
+
+## Visual design
+
+The blog and the portfolio are skinned from one design system, **SIGNAL /
+SYSTEM**, so that someone who opens both sees one person. The source of the
+system is `changyong-portfolio/docs/design-system.md`; nothing here is a second
+identity.
+
+The vocabulary: warm graphite ground, warm off-white ink, editorial hairline
+rules, small operational labels in monospace (dates, breadcrumbs, tags, the
+language switcher), and three signal accents — cyan, green, amber — used only
+at small scale. Never as a large fill.
+
+**Where the tokens live — two files, one palette.**
+
+|                             |                                                                                                                                                                      |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `quartz.config.ts`          | Quartz's nine colour slots (`--light` … `--textHighlight`) plus the typography. Quartz's OG-image renderer reads the palette from here, which is why it cannot move. |
+| `quartz/styles/custom.scss` | Everything the portfolio has and Quartz does not: `--bg-raised`, `--bg-inset`, `--rule-strong`, the signal accents, `--steel`, `--sand` — plus the whole skin.       |
+
+Change them together. Both files say so.
+
+Light is **derived, not inverted**: warm paper keeping the same ink / rule /
+accent relationships the graphite ground has, with each accent darkened until
+it clears contrast on paper. Measured, on both grounds: body text ≥ 7:1,
+headings ≥ 14:1, metadata ≥ 7:1, every accent used as text ≥ 4.5:1. The table
+is in the header comment of `custom.scss`.
+
+Nothing communicates state by colour alone. The unavailable half of the
+language switcher is struck through as well as dimmed, the current one is
+underlined as well as bold, prose links are underlined rather than merely
+coloured, and the diagram legends name every treatment they use.
+
+Typography is Space Grotesk and IBM Plex Mono, the portfolio's families. Korean
+falls through to the OS stack (Apple SD Gothic Neo / Noto Sans KR) rather than
+shipping a multi-megabyte Hangul webfont to a Korean-first blog. `:lang(ko)`
+gets `word-break: keep-all`. The occasional serif aside uses a system serif for
+the same reason — the portfolio's Newsreader is first in the stack if it is
+ever worth loading.
+
+`quartz/static/icon.png` is the portfolio's CM signal mark, rendered from its
+`icon.svg`. The mark also appears next to the site title, as two theme-specific
+data URIs in `custom.scss`.
+
+### Diagrams
+
+`diagrams/` holds two self-contained HTML files — no build step, no Mermaid —
+and the `<svg>` fragment each one is built from:
+
+|                   |                                                                                                                  |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `publish-path`    | the vault, the two gates, the mirror, the site                                                                   |
+| `retrieval-layer` | notes and session logs → chunking → local embedding → the index → CLI and MCP, inside a boundary nothing crosses |
+
+The same fragments are inlined into the KO and EN copies of _One vault, two
+gates_. They are drawn against `--dg-*` custom properties, which the standalone
+files define as literals and `custom.scss` maps onto the site's theme
+variables — so in the post they follow the theme **toggle**, not just the OS
+preference, and a palette change moves the page and the diagrams together.
+
+To regenerate the standalone wrappers after editing a fragment, the wrapper is
+plain HTML; edit it directly or re-paste the fragment between the `<figure>`
+tags.
 
 ## Getting it live on GitHub Pages
 
@@ -286,15 +371,24 @@ scripts/
   sync-vault.mjs            Public/ → content/, mirroring
   check-links.mjs           broken links and images
   test-guard.mjs            adversarial test of the guard
+  check-bilingual.mjs       post-build test of canonical / hreflang / switcher
   migrate-inblog.mjs        one-shot migration
   inblog-map.mjs            curated slug/section/tag table for the 40 posts
-quartz.config.ts            baseUrl, plugins
+diagrams/                   standalone HTML diagrams + the SVG fragments
+                            inlined into the posts
+quartz.config.ts            baseUrl, plugins, palette, typography
 quartz.layout.ts            where the switcher and head are wired in
+quartz/styles/custom.scss   the SIGNAL / SYSTEM skin and its tokens
 ```
 
 `BilingualHead` _appends_ to Quartz's stock `Head` via `cloneElement` rather than
 forking it, so pulling upstream Quartz changes does not silently drop new meta
-tags. The only edits to upstream Quartz files are one guard in
-`quartz/plugins/emitters/contentPage.tsx` (suppressing the "missing index.md"
-warning, since the root is a redirect here) and the two export lines in
-`components/index.ts` and `plugins/emitters/index.ts`.
+tags. The edits to upstream Quartz files are deliberately few, and this is all
+of them:
+
+| File                                               | Edit                          | Why                                                                                                                                                                                                                                           |
+| -------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `plugins/emitters/contentPage.tsx`                 | one guard                     | suppresses the "missing index.md" warning; the root is a redirect here                                                                                                                                                                        |
+| `components/index.ts`, `plugins/emitters/index.ts` | two export lines              | `LanguageSwitcher` / `BilingualHead` / `LanguageRootRedirect`                                                                                                                                                                                 |
+| `components/renderPage.tsx`                        | `<html lang>` uses `langOf()` | Quartz generates folder pages (`/en/engineering/`) with no frontmatter, so they inherited the site locale and shipped `<html lang="ko">` while their own hreflang and switcher said `en`. `pnpm blog:test-lang` now fails if that comes back. |
+| `styles/custom.scss`, `static/icon.png`            | the skin and the favicon      | see [Visual design](#visual-design)                                                                                                                                                                                                           |

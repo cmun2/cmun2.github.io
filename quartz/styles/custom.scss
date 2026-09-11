@@ -1,3 +1,563 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+/* ════════════════════════════════════════════════════════════════════════════
+   SIGNAL / SYSTEM — blog skin
+   ════════════════════════════════════════════════════════════════════════════
+
+   Adopted wholesale from the portfolio's design system
+   (changyong-portfolio/docs/design-system.md + src/app/globals.css) so that a
+   recruiter who opens the portfolio and then this blog sees one person, not
+   two. Nothing here is a second identity.
+
+   The vocabulary: warm graphite ground, warm off-white ink, editorial hairline
+   rules, small operational labels in monospace, and three signal accents used
+   only at small scale — links, rules, node strokes, a pulse — never as a fill.
+
+   WHERE THE TOKENS LIVE
+   ─────────────────────
+   Quartz's nine colour slots (--light … --textHighlight) are set in
+   quartz.config.ts, because that is where a Quartz user expects to find them
+   and because Quartz's OG-image renderer reads them from there. Everything
+   the portfolio has and Quartz does not — bg-raised, bg-inset, rule-strong,
+   the signal accents, steel, sand — is defined below. The two blocks are one
+   palette split across two files by Quartz's shape; change them together.
+
+   MEASURED CONTRAST (WCAG 2.1)
+   ────────────────────────────
+                          dark ground #161412      light ground #f6f2ea
+     body text              14.93 : 1                14.15 : 1
+     headings               15.77 : 1                16.86 : 1
+     metadata / dates        7.04 : 1                 7.36 : 1
+     link accent            10.52 : 1                 5.42 : 1
+     hover accent            8.42 : 1                 5.29 : 1
+     signal green            9.14 : 1                 5.49 : 1
+   Body text clears 7:1 on both grounds; every accent used as text clears
+   4.5:1. State is never carried by colour alone — the disabled half of the
+   language switcher is struck through, the diagram legend is labelled, and
+   prose links are underlined rather than merely coloured.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── tokens: light (warm paper) ──────────────────────────────────────────── */
+:root {
+  --bg-raised: #fbf8f2;
+  --bg-inset: #efe9dd;
+  --rule-strong: #cfc5b2;
+  --signal-cyan: #0e6d76;
+  --signal-green: #2c6f30;
+  --signal-amber: #8a5a13;
+  --steel: #4a5866;
+  --sand: #6b5a38;
+  --grain-opacity: 0.022;
+
+  --serifFont: "Newsreader", "Nanum Myeongjo", Georgia, "Times New Roman", serif;
+  --label-tracking: 0.14em;
+}
+
+/* ── tokens: dark (the portfolio's own graphite) ─────────────────────────── */
+@mixin signal-dark {
+  --bg-raised: #1d1a17;
+  --bg-inset: #12100e;
+  --rule-strong: #4a443c;
+  --signal-cyan: #4fd6e0;
+  --signal-green: #79c979;
+  --signal-amber: #e0a458;
+  --steel: #8a97a3;
+  --sand: #c9b99a;
+  --grain-opacity: 0.035;
+}
+
+/* Quartz's inline script always stamps saved-theme before first paint, so this
+   is the operative rule. The media query below it only matters with JS off. */
+:root[saved-theme="dark"] {
+  @include signal-dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([saved-theme="light"]) {
+    @include signal-dark;
+  }
+}
+
+/* ── ground ──────────────────────────────────────────────────────────────── */
+
+body {
+  font-size: 1.0625rem;
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Paper grain. Decorative, fixed, behind everything, invisible to AT.
+   Same feTurbulence the portfolio uses, at the same weight. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Korean prose breaks on phrase boundaries, not mid-word. */
+:lang(ko) {
+  word-break: keep-all;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--signal-cyan) 28%, transparent);
+  color: var(--dark);
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal-cyan);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── the operational label: the system's one recurring device ────────────── */
+
+.ops-label,
+.content-meta,
+.breadcrumb-container,
+footer,
+.language-switcher,
+.section-li .meta,
+article .tags > li > a,
+.page-listing-empty {
+  font-family: var(--codeFont);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+
+/* ── header: hairline rule, title left, switcher right ───────────────────── */
+
+header {
+  margin: 2rem 0 0 0;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--rule-strong);
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.page-title {
+  font-family: var(--titleFont);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+
+  & a {
+    color: var(--dark);
+    background: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  /* The CM signal mark, unchanged from the portfolio: the letters drawn as one
+     signal trace, ending in a live pulse dot. Two data URIs rather than one
+     masked glyph, because the pulse keeps its accent while the trace is ink. */
+  & a::before {
+    content: "";
+    flex: none;
+    width: 2.1em;
+    height: 1.26em;
+    background: no-repeat center / contain
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24' fill='none'%3E%3Cpath d='M14 4 H4 V20 H14' stroke='%2314110d' stroke-width='2.5' stroke-linecap='square'/%3E%3Cpath d='M19 20 V4 L26 14 L33 4 V20' stroke='%2314110d' stroke-width='2.5' stroke-linecap='square'/%3E%3Ccircle cx='37' cy='20' r='2.5' fill='%230e6d76'/%3E%3C/svg%3E");
+  }
+}
+
+:root[saved-theme="dark"] .page-title a::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24' fill='none'%3E%3Cpath d='M14 4 H4 V20 H14' stroke='%23f2ede5' stroke-width='2.5' stroke-linecap='square'/%3E%3Cpath d='M19 20 V4 L26 14 L33 4 V20' stroke='%23f2ede5' stroke-width='2.5' stroke-linecap='square'/%3E%3Ccircle cx='37' cy='20' r='2.5' fill='%234fd6e0'/%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([saved-theme="light"]) .page-title a::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24' fill='none'%3E%3Cpath d='M14 4 H4 V20 H14' stroke='%23f2ede5' stroke-width='2.5' stroke-linecap='square'/%3E%3Cpath d='M19 20 V4 L26 14 L33 4 V20' stroke='%23f2ede5' stroke-width='2.5' stroke-linecap='square'/%3E%3Ccircle cx='37' cy='20' r='2.5' fill='%234fd6e0'/%3E%3C/svg%3E");
+  }
+}
+
+/* ── typography ──────────────────────────────────────────────────────────── */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+h1 {
+  font-weight: 700;
+}
+h2 {
+  font-weight: 500;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--lightgray);
+}
+h3 {
+  font-weight: 500;
+}
+
+.article-title {
+  font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.12;
+  margin: 1.25rem 0 0 0;
+}
+
+/* The meta strip under a post title: date · reading time, mono, on a rule. */
+.content-meta {
+  color: var(--gray);
+  margin: 0.9rem 0 0 0;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid var(--lightgray);
+
+  &[show-comma="true"] > *:not(:last-child)::after {
+    content: " ·";
+  }
+}
+
+.breadcrumb-container {
+  color: var(--gray);
+  margin: 0 0 0.25rem 0;
+
+  & a {
+    color: var(--gray);
+    font-weight: 500;
+  }
+  & a:hover {
+    color: var(--tertiary);
+  }
+}
+
+/* ── prose ───────────────────────────────────────────────────────────────── */
+
+article {
+  /* Links in prose are underlined, never colour-only. */
+  & p a,
+  & li a,
+  & td a,
+  & blockquote a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in srgb, var(--secondary) 45%, transparent);
+    font-weight: 500;
+
+    &:hover {
+      text-decoration-color: var(--tertiary);
+    }
+  }
+
+  /* Quartz's stock "chip" treatment for internal links is not this system. */
+  & a.internal {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  & > blockquote {
+    border-left: 1px solid var(--rule-strong);
+    padding-left: 1.35rem;
+    margin: 1.75rem 0;
+    font-family: var(--serifFont);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--sand);
+
+    & p {
+      color: inherit;
+    }
+    & code {
+      font-style: normal;
+    }
+  }
+
+  & hr {
+    background: none;
+    height: 0;
+    border-top: 1px solid var(--lightgray);
+  }
+
+  & img {
+    border-radius: 4px;
+    border: 1px solid var(--lightgray);
+  }
+
+  & figure[data-rehype-pretty-code-figure] > [data-rehype-pretty-code-title] {
+    font-family: var(--codeFont);
+    font-size: 0.7rem;
+    letter-spacing: var(--label-tracking);
+    text-transform: uppercase;
+    color: var(--gray);
+    border-radius: 4px 4px 0 0;
+    border-color: var(--lightgray);
+    background: var(--bg-inset);
+  }
+}
+
+code {
+  background: var(--bg-inset);
+  border: 1px solid var(--lightgray);
+  border-radius: 3px;
+  padding: 0.05rem 0.3rem;
+  font-size: 0.86em;
+}
+
+pre {
+  background: var(--bg-inset);
+  border: 1px solid var(--lightgray);
+  border-radius: 4px;
+  padding: 0 0.75rem;
+
+  & > code {
+    background: none;
+    border: none;
+    padding: 0.75rem 0;
+  }
+}
+
+th {
+  font-family: var(--codeFont);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+tr {
+  border-bottom: 1px solid var(--lightgray);
+}
+
+/* ── post list ───────────────────────────────────────────────────────────── */
+
+ul.section-ul {
+  margin-top: 1.75rem;
+  border-top: 1px solid var(--lightgray);
+}
+
+li.section-li {
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--lightgray);
+
+  & > .section {
+    /* Wider tag column than stock, so two or three tags stay on one line
+       instead of stacking and making every row a different height. */
+    grid-template-columns: fit-content(7em) minmax(0, 1fr) fit-content(16em);
+    align-items: baseline;
+    padding: 0.9rem 0;
+    transition: background-color 0.15s ease;
+  }
+
+  &:hover > .section {
+    background-color: color-mix(in srgb, var(--secondary) 6%, transparent);
+  }
+
+  & .meta {
+    color: var(--gray);
+    opacity: 1;
+    white-space: nowrap;
+    margin-right: 1.25rem;
+  }
+
+  & .desc > h3 {
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+
+    & > a {
+      color: var(--dark);
+      text-decoration: none;
+    }
+  }
+
+  &:hover .desc > h3 > a {
+    color: var(--secondary);
+  }
+}
+
+/* Tags read as operational chips, not as links in prose. The extra `.tags`
+   in the selector outranks TagList's own `a.internal.tag-link` rule. */
+.tags a.internal.tag-link {
+  display: inline-block;
+  color: var(--gray);
+  background-color: transparent;
+  border: 1px solid var(--lightgray);
+  border-radius: 3px;
+  padding: 0.15rem 0.45rem;
+  margin: 0;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--secondary);
+    border-color: color-mix(in srgb, var(--secondary) 45%, var(--lightgray));
+  }
+}
+
+.popover-hint > .tags {
+  margin: 1.5rem 0 0 0;
+}
+
+/* ── footer ──────────────────────────────────────────────────────────────── */
+
+footer {
+  opacity: 1;
+  color: var(--gray);
+  margin-top: 4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-strong);
+
+  & p {
+    color: var(--gray);
+    margin: 0 0 0.6rem 0;
+  }
+
+  & a {
+    color: var(--gray);
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--tertiary);
+    }
+  }
+
+  & ul {
+    margin-top: 0;
+    gap: 1.25rem;
+  }
+}
+
+/* ── sidebars: quiet, hairlined, so they don't compete with the column ───── */
+
+.sidebar {
+  & .search-button,
+  & .darkmode,
+  & .readermode {
+    border-radius: 4px;
+  }
+
+  & .search-button {
+    background: var(--bg-raised);
+    border: 1px solid var(--lightgray);
+
+    & p {
+      font-family: var(--codeFont);
+      font-size: 0.6875rem;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+  }
+
+  & .explorer-content,
+  & .toc-content,
+  & .backlinks > ul {
+    font-size: 0.9rem;
+  }
+
+  & h3,
+  & .explorer-toggle,
+  & .toc > button > h3 {
+    font-family: var(--codeFont);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: var(--label-tracking);
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  & a {
+    text-decoration: none;
+  }
+}
+
+/* ── diagrams ────────────────────────────────────────────────────────────────
+   Two inline SVG figures ship inside one post. They are drawn against
+   var(--) tokens rather than literals, so they follow the theme toggle
+   instead of only prefers-color-scheme, and so retuning the palette retunes
+   the diagrams too. Standalone copies live in diagrams/ at the repo root. */
+
+figure.diagram {
+  /* The --dg-* names are the diagram design system's semantic roles. The
+     standalone copies in diagrams/ define the same names as literals; here
+     they are wired to the site's theme variables, so one palette change moves
+     the page and the diagrams together, and the diagrams follow the theme
+     TOGGLE rather than only the OS preference. */
+  --dg-paper: var(--bg-raised);
+  --dg-ink: var(--dark);
+  --dg-muted: var(--gray);
+  --dg-rule: var(--lightgray);
+  --dg-rule-strong: var(--rule-strong);
+  --dg-accent: var(--signal-green);
+  --dg-accent-tint: color-mix(in srgb, var(--signal-green) 7%, transparent);
+  --dg-accent-rule: color-mix(in srgb, var(--signal-green) 50%, transparent);
+  --dg-node: color-mix(in srgb, var(--dark) 4%, transparent);
+  --dg-zone: color-mix(in srgb, var(--dark) 3%, transparent);
+  --dg-zone-rule: color-mix(in srgb, var(--dark) 12%, transparent);
+  --dg-sans: var(--bodyFont);
+  --dg-mono: var(--codeFont);
+
+  margin: 2.25rem 0;
+  padding: 1.25rem 1rem 1rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  overflow-x: auto;
+
+  & > svg {
+    display: block;
+    width: 100%;
+    min-width: 34rem;
+    height: auto;
+  }
+
+  /* The design system allows a diagram to bleed slightly wider than the text
+     column. 1.5rem is as far as it can go before it reaches the explorer in
+     the left rail at the narrowest desktop width. Below 1200px the figure
+     keeps the column width and scrolls horizontally instead. */
+  @media all and (min-width: 1200px) {
+    margin-inline: -1.5rem;
+  }
+
+  & > figcaption {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--gray);
+    max-width: 62ch;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--lightgray);
+
+    & code {
+      font-size: 0.84em;
+      padding: 0 0.2rem;
+      border: none;
+    }
+  }
+}
+
+/* ── motion gate ─────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

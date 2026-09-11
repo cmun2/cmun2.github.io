@@ -10,6 +10,7 @@ import { Root, Element, ElementContent } from "hast"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import { styleText } from "util"
+import { langOf } from "../i18nSite"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -257,7 +258,11 @@ export function renderPage(
     </div>
   )
 
-  const lang = componentData.fileData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
+  // `langOf` = frontmatter `lang`, then the first path segment. The fallback
+  // matters: Quartz generates folder pages (e.g. /en/engineering/) that have no
+  // frontmatter at all, and without it they would inherit the site locale and
+  // claim <html lang="ko"> while their own hreflang and switcher said "en".
+  const lang = langOf(componentData.fileData) ?? cfg.locale?.split("-")[0] ?? "en"
   const direction = i18n(cfg.locale).direction ?? "ltr"
   const doc = (
     <html lang={lang} dir={direction}>

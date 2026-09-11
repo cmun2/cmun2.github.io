@@ -39,33 +39,55 @@ const config: QuartzConfig = {
     theme: {
       fontOrigin: "googleFonts",
       cdnCaching: true,
+      // SIGNAL / SYSTEM typography, same families as the portfolio:
+      // Space Grotesk for everything set in sans, IBM Plex Mono for the
+      // "system register" — labels, dates, code. Korean falls through to the
+      // OS stack (Apple SD Gothic Neo / Noto Sans KR); shipping a multi-MB
+      // Hangul webfont for a Korean-first blog is not worth the bytes.
       typography: {
-        header: "Schibsted Grotesk",
-        body: "Source Sans Pro",
+        header: { name: "Space Grotesk", weights: [400, 500, 700] },
+        // Space Grotesk ships no italic on Google Fonts; asking for one
+        // makes the request longer and gets silently dropped. Editorial
+        // italic is the serif aside in custom.scss instead.
+        body: { name: "Space Grotesk", weights: [400, 500, 700], includeItalic: false },
         code: "IBM Plex Mono",
       },
+      // ── SIGNAL / SYSTEM palette ──────────────────────────────────────────
+      // Lifted from the portfolio's design system (docs/design-system.md in
+      // changyong-portfolio) so the blog and the portfolio read as one person.
+      //
+      // Quartz only has nine slots. The rest of the system — bg-raised,
+      // bg-inset, rule-strong, and the three signal accents — lives in
+      // quartz/styles/custom.scss. CHANGE BOTH TOGETHER.
+      //
+      // Measured contrast on each ground (WCAG 2.1, see the table in
+      // custom.scss): body text ≥ 7:1, every accent used as text ≥ 4.5:1.
+      // Nothing in this theme communicates state by colour alone.
       colors: {
+        // Light is *derived*, not inverted: warm paper keeping the same
+        // ink/rule/accent relationships the dark ground has.
         lightMode: {
-          light: "#faf8f8",
-          lightgray: "#e5e5e5",
-          gray: "#b8b8b8",
-          darkgray: "#4e4e4e",
-          dark: "#2b2b2b",
-          secondary: "#284b63",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#fff23688",
+          light: "#f6f2ea", // warm paper ground
+          lightgray: "#e2dbcd", // hairline rules, inline-code ground
+          gray: "#554e42", // metadata, dates            7.36:1
+          darkgray: "#26221d", // body text                 14.15:1
+          dark: "#14110d", // headings, strong          16.86:1
+          secondary: "#0e6d76", // links — cyan darkened      5.42:1
+          tertiary: "#8a5a13", // hover — amber darkened     5.29:1
+          highlight: "rgba(14, 109, 118, 0.08)",
+          textHighlight: "rgba(224, 164, 88, 0.45)",
         },
+        // Dark is the portfolio's own graphite ground, unchanged.
         darkMode: {
-          light: "#161618",
-          lightgray: "#393639",
-          gray: "#646464",
-          darkgray: "#d4d4d4",
-          dark: "#ebebec",
-          secondary: "#7b97aa",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#b3aa0288",
+          light: "#161412", // --bg        warm graphite
+          lightgray: "#332e28", // --rule
+          gray: "#a89f93", // --ink-muted                7.04:1
+          darkgray: "#ece7df", // --ink                     14.93:1
+          dark: "#f2ede5", // --ink lifted              15.77:1
+          secondary: "#4fd6e0", // --signal-cyan             10.52:1
+          tertiary: "#e0a458", // --signal-amber             8.42:1
+          highlight: "rgba(79, 214, 224, 0.10)",
+          textHighlight: "rgba(224, 164, 88, 0.32)",
         },
       },
     },
@@ -112,7 +134,9 @@ const config: QuartzConfig = {
       Plugin.Favicon(),
       Plugin.NotFoundPage(),
       // Comment out CustomOgImages to speed up build time
-      Plugin.CustomOgImages(),
+      // Dark palette: the portfolio is dark-first, and a social card is the
+      // one place this site gets seen out of its own context.
+      Plugin.CustomOgImages({ colorScheme: "darkMode" }),
       // Emits public/index.html redirecting to /${DEFAULT_LANG}/.
       // Must come last so it wins over anything else claiming the root slug.
       Plugin.LanguageRootRedirect(),
