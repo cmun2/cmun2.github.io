@@ -10,7 +10,7 @@ import { Root, Element, ElementContent } from "hast"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import { styleText } from "util"
-import { langOf } from "../i18nSite"
+import { langOf, localizedCfg } from "../i18nSite"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -220,6 +220,20 @@ export function renderPage(
   components: RenderComponents,
   pageResources: StaticResources,
 ): string {
+  // `langOf` = frontmatter `lang`, then the first path segment. The fallback
+  // matters: Quartz generates folder pages (e.g. /en/engineering/) that have no
+  // frontmatter at all, and without it they would inherit the site locale and
+  // claim <html lang="ko"> while their own hreflang and switcher said "en".
+  const pageLang = langOf(componentData.fileData)
+
+  // Quartz has one global `locale`, so every page shipped the site's chrome:
+  // /en/ pages rendered 검색 / 탐색기 / 목차 and Korean-formatted dates. Every
+  // component takes its strings from `cfg.locale` on the props it is handed, so
+  // handing each page a config carrying ITS OWN locale translates the whole
+  // chrome without forking a component. Same source of truth as <html lang>.
+  cfg = localizedCfg(cfg, pageLang)
+  componentData.cfg = cfg
+
   // make a deep copy of the tree so we don't remove the transclusion references
   // for the file cached in contentMap in build.ts
   const root = clone(componentData.tree) as Root
@@ -258,11 +272,7 @@ export function renderPage(
     </div>
   )
 
-  // `langOf` = frontmatter `lang`, then the first path segment. The fallback
-  // matters: Quartz generates folder pages (e.g. /en/engineering/) that have no
-  // frontmatter at all, and without it they would inherit the site locale and
-  // claim <html lang="ko"> while their own hreflang and switcher said "en".
-  const lang = langOf(componentData.fileData) ?? cfg.locale?.split("-")[0] ?? "en"
+  const lang = pageLang ?? cfg.locale?.split("-")[0] ?? "en"
   const direction = i18n(cfg.locale).direction ?? "ltr"
   const doc = (
     <html lang={lang} dir={direction}>

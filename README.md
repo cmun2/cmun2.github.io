@@ -190,6 +190,35 @@ counterpart. That is fine — the switcher shows KO greyed out.
   the common case — it renders a greyed-out, `aria-disabled` span, **never a
   link that 404s**.
 
+### Per-page chrome
+
+Upstream Quartz has exactly one `locale` — it assumes a single-language site.
+That made `/en/` render 검색 / 탐색기 / 목차 and `2026년 9월 11일`.
+
+The fix is one value, not a fork. `quartz/i18nSite.ts` maps each language onto a
+Quartz locale (`ko` → `ko-KR`, `en` → `en-US`), and `renderPage` swaps it into
+the configuration object **before** any component runs, from the same `langOf()`
+that decides `<html lang>` and the hreflang set. Every Quartz component already
+reads its strings and its date format from `cfg.locale` on the props it is
+handed, so search, explorer, table of contents, graph, backlinks, the theme and
+reader toggles, reading time and dates all follow the page — without a single
+component being copied into this repo.
+
+Two strings are built outside any component and needed their own line: the
+generated folder title, and the social card. Both are in the table above.
+
+**Deliberately still in the site language:** `/tags/…` and `404.html`. They sit
+outside `/ko/` and `/en/` on purpose — a tag page lists posts in both languages,
+so it has no language of its own, and for the same reason it carries no switcher
+and no hreflang. `blog:test-lang` checks them for the absence of all three.
+
+**Not reachable at all:** a handful of upstream strings are hardcoded English
+rather than translated, and are English on Korean pages too — the `<title>` inside
+the search icon, `aria-label="Global Graph"`, and the breadcrumb root `Home`.
+Fixing them means either forking three components or patching upstream's i18n
+tables; neither is worth the upgrade cost for three labels, and leaving them is
+coherent because they are English everywhere rather than English in one tree.
+
 ### SEO
 
 - Self-referencing `<link rel="canonical">` on every page.
@@ -219,6 +248,20 @@ and that the switcher either links to a file that exists in the right language
 and links back, or renders a disabled, non-anchor span. Tag pages and the 404
 are checked for the opposite — a canonical, and deliberately no switcher and no
 hreflang.
+
+It also asserts the chrome is in the page's own language, in both directions. It
+reads each string out of the one slot that renders it — the search button and its
+placeholder, the explorer and table-of-contents headings, the graph and backlinks
+headings, the theme and reader toggles, the generated folder title, the date in
+the content meta — and compares it against that component's string in _both_
+locales, so Korean chrome on `/en/` and English chrome on `/ko/` each fail by
+name. Reading slots rather than grepping the page is what makes that possible: a
+Korean post about search engines contains the word "Search" in its prose, and
+Quartz hardcodes English labels outside its i18n tables, so no whole-page
+vocabulary scan could tell chrome from content. As a net for chrome this file
+does not yet know about, an `/en/` page's left sidebar must contain no Hangul at
+all — nothing there is page content, because the explorer tree is built in the
+browser.
 
 ---
 
@@ -386,9 +429,11 @@ forking it, so pulling upstream Quartz changes does not silently drop new meta
 tags. The edits to upstream Quartz files are deliberately few, and this is all
 of them:
 
-| File                                               | Edit                          | Why                                                                                                                                                                                                                                           |
-| -------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `plugins/emitters/contentPage.tsx`                 | one guard                     | suppresses the "missing index.md" warning; the root is a redirect here                                                                                                                                                                        |
-| `components/index.ts`, `plugins/emitters/index.ts` | two export lines              | `LanguageSwitcher` / `BilingualHead` / `LanguageRootRedirect`                                                                                                                                                                                 |
-| `components/renderPage.tsx`                        | `<html lang>` uses `langOf()` | Quartz generates folder pages (`/en/engineering/`) with no frontmatter, so they inherited the site locale and shipped `<html lang="ko">` while their own hreflang and switcher said `en`. `pnpm blog:test-lang` now fails if that comes back. |
-| `styles/custom.scss`, `static/icon.png`            | the skin and the favicon      | see [Visual design](#visual-design)                                                                                                                                                                                                           |
+| File                                               | Edit                                                                                                        | Why                                                                                                                                                                                                                                                                                                                                                                                                               |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `plugins/emitters/contentPage.tsx`                 | one guard                                                                                                   | suppresses the "missing index.md" warning; the root is a redirect here                                                                                                                                                                                                                                                                                                                                            |
+| `components/index.ts`, `plugins/emitters/index.ts` | two export lines                                                                                            | `LanguageSwitcher` / `BilingualHead` / `LanguageRootRedirect`                                                                                                                                                                                                                                                                                                                                                     |
+| `components/renderPage.tsx`                        | `<html lang>` uses `langOf()`, and the page's own locale is swapped into `cfg` before any component renders | Quartz generates folder pages (`/en/engineering/`) with no frontmatter, so they inherited the site locale and shipped `<html lang="ko">` while their own hreflang and switcher said `en`. The same `langOf()` now also decides `cfg.locale`, which is where every component reads its UI strings and date format from — one field threaded through, no component forked. See [Per-page chrome](#per-page-chrome). |
+| `plugins/emitters/folderPage.tsx`                  | folder title uses the folder's own language                                                                 | A generated folder page's title (`Folder: en/engineering`) is invented in the emitter before any component exists, so the locale `renderPage` threads through cannot reach it. `/en/engineering/` said `폴더:`.                                                                                                                                                                                                   |
+| `plugins/emitters/ogImage.tsx`                     | social card uses the page's language                                                                        | The card is the one place this site is seen out of its own context, and an English post's card carried a Korean date. One line: the same `localizedCfg()` call.                                                                                                                                                                                                                                                   |
+| `styles/custom.scss`, `static/icon.png`            | the skin and the favicon                                                                                    | see [Visual design](#visual-design)                                                                                                                                                                                                                                                                                                                                                                               |

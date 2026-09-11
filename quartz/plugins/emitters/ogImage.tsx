@@ -1,5 +1,6 @@
 import { QuartzEmitterPlugin } from "../types"
 import { i18n } from "../../i18n"
+import { langOf, localizedCfg } from "../../i18nSite"
 import { unescapeHTML } from "../../util/escape"
 import { FullSlug, getFileExtension, isAbsoluteURL, joinSegments, QUARTZ } from "../../util/path"
 import { ImageOptions, SocialImageOptions, defaultImage, getSatoriFonts } from "../../util/og"
@@ -71,7 +72,10 @@ async function processOgImage(
   fonts: SatoriOptions["fonts"],
   fullOptions: SocialImageOptions,
 ) {
-  const cfg = ctx.cfg.configuration
+  // Same per-page locale renderPage threads through the HTML. The social card
+  // is the one place this site is seen out of its own context, and without this
+  // an English post's card carries a Korean date and Korean fallback strings.
+  const cfg = localizedCfg(ctx.cfg.configuration, langOf(fileData))
   const slug = fileData.slug!
   const titleSuffix = cfg.pageTitleSuffix ?? ""
   const title =

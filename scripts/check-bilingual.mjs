@@ -14,7 +14,14 @@
  *   4. the language switcher links to a file that actually exists, in the
  *      right language, whose own switcher links back here — and that where no
  *      counterpart exists it renders a disabled, non-anchor span instead. That
- *      is the common case: most posts are Korean-only.
+ *      is the common case: most posts are Korean-only;
+ *   5. the *chrome* is in the page's own language — the search button, the
+ *      explorer and table-of-contents headings, the theme and reader toggles,
+ *      the graph and backlinks headings, the generated folder title, and the
+ *      date format. Upstream Quartz has one global `locale`, so this is the
+ *      claim most likely to quietly regress: a pull from upstream that adds a
+ *      component, or a hand-edit that drops the per-page locale `renderPage`
+ *      threads through, puts 검색 / 탐색기 / 목차 back on /en/.
  *
  * Pages outside /ko/ and /en/ — tag pages, 404 — are checked for the opposite:
  * a canonical, and deliberately no switcher and no hreflang.
@@ -85,6 +92,7 @@ for (const file of files) {
       href: attr(t, "href"),
     })),
     switcher: (html.match(/<div class="language-switcher"[\s\S]*?<\/div>/) ?? [""])[0],
+    html,
   }
   pages.set(file, page)
   if (page.canonical) byCanonical.set(trim(page.canonical), page)
@@ -194,6 +202,117 @@ for (const p of pages.values()) {
   }
 }
 
+// ── 5. the chrome is in the page's own language ─────────────────────────────
+//
+// Each slot below is read out of the page where exactly one component renders
+// it, and compared against that component's string in BOTH locales. Reading a
+// slot rather than grepping the whole document is what makes the check usable
+// in both directions: a Korean post about search engines contains the word
+// "Search" in its prose, and Quartz itself hardcodes English outside i18n (the
+// `<title>Search</title>` inside the search icon, `aria-label="Global Graph"`,
+// the breadcrumb root "Home"), so no vocabulary scan over the whole page could
+// tell chrome from content. The slot is the unit of the claim.
+//
+// A slot that is absent is skipped, not failed — the layout puts the table of
+// contents and the graph only on some page types.
+
+const CHROME = {
+  ko: {
+    search: "검색",
+    searchPlaceholder: "검색어를 입력하세요",
+    explorer: "탐색기",
+    tableOfContents: "목차",
+    graph: "그래프 뷰",
+    backlinks: "백링크",
+    darkMode: "다크 모드",
+    lightMode: "라이트 모드",
+    readerMode: "리더 모드",
+    folderTitlePrefix: "폴더",
+  },
+  en: {
+    search: "Search",
+    searchPlaceholder: "Search for something",
+    explorer: "Explorer",
+    tableOfContents: "Table of Contents",
+    graph: "Graph View",
+    backlinks: "Backlinks",
+    darkMode: "Dark mode",
+    lightMode: "Light mode",
+    readerMode: "Reader mode",
+    folderTitlePrefix: "Folder",
+  },
+}
+
+const SLOTS = {
+  search: /<button class="search-button">[\s\S]*?<p>([^<]*)<\/p>/,
+  searchPlaceholder: /class="search-bar"[^>]*placeholder="([^"]*)"/,
+  explorer: /desktop-explorer"[^>]*><h2>([^<]*)<\/h2>/,
+  tableOfContents: /class="toc-header"[^>]*><h3>([^<]*)<\/h3>/,
+  graph: /<div class="graph"><h3>([^<]*)<\/h3>/,
+  backlinks: /<div class="backlinks"[\s\S]*?<h3>([^<]*)<\/h3>/,
+  darkMode: /class="dayIcon"[^>]*aria-label="([^"]*)"/,
+  lightMode: /class="nightIcon"[^>]*aria-label="([^"]*)"/,
+  readerMode: /class="readerIcon"[^>]*aria-label="([^"]*)"/,
+  // The generated title of a folder page — "Folder: en/engineering". Invented
+  // by the folder-page emitter, not by a component, so it is the one string
+  // the per-page locale in renderPage cannot reach on its own.
+  folderTitlePrefix: /<h1 class="article-title">([^<:]+): [a-z]/,
+}
+
+// Dates come from `cfg.locale` too, via Intl, so they regress the same way.
+const DATE_SHAPE = {
+  ko: /^\d{4}년 \d{1,2}월 \d{1,2}일$/,
+  en: /^[A-Z][a-z]{2} \d{2}, \d{4}$/,
+}
+
+let slotsChecked = 0
+let datesChecked = 0
+
+for (const p of pages.values()) {
+  if (!p.tree) continue
+  const mine = CHROME[p.tree]
+  const theirs = CHROME[p.tree === "ko" ? "en" : "ko"]
+
+  for (const [slot, re] of Object.entries(SLOTS)) {
+    const found = (p.html.match(re) ?? [])[1]
+    if (found === undefined) continue // this page type does not render it
+    slotsChecked++
+    if (found === mine[slot]) continue
+    if (found === theirs[slot]) {
+      bad(
+        `${p.file}: ${slot} is "${found}" — that is the other language's chrome on a /${p.tree}/ page`,
+      )
+    } else {
+      bad(`${p.file}: ${slot} is "${found}", expected "${mine[slot]}"`)
+    }
+  }
+
+  const stamped = (p.html.match(/<p[^>]*class="content-meta"[^>]*><time[^>]*>([^<]*)<\/time>/) ??
+    [])[1]
+  if (stamped !== undefined) {
+    datesChecked++
+    if (!DATE_SHAPE[p.tree].test(stamped)) {
+      bad(`${p.file}: date "${stamped}" is not formatted for /${p.tree}/`)
+    }
+  }
+
+  // A net wider than the named slots, for the direction where one is possible.
+  // Nothing in the left sidebar is page content — the explorer tree is built
+  // in the browser from contentIndex.json, so server-side it is an empty <ul>
+  // — which makes "no Hangul here" a safe way to catch chrome this file does
+  // not yet know about. The mirror of this check cannot exist: English words
+  // in a /ko/ sidebar are Quartz's own hardcoded labels, not a regression.
+  if (p.tree === "en") {
+    const sidebar = (p.html.match(/<div class="left sidebar">[\s\S]*?<div class="center">/) ?? [
+      "",
+    ])[0]
+    const hangul = [...new Set(sidebar.match(/[가-힣]+/g) ?? [])]
+    if (hangul.length) {
+      bad(`${p.file}: Korean in the left sidebar of an /en/ page: ${hangul.join(", ")}`)
+    }
+  }
+}
+
 // ── pages outside the language trees ────────────────────────────────────────
 let outside = 0
 for (const p of pages.values()) {
@@ -214,6 +333,7 @@ console.log(
   fmt.ok(
     `${pages.size} page(s): all self-canonical · ${paired} in a KO/EN pair, ${solo} single-language · ` +
       `${switcherLinks} switcher link(s) resolve and round-trip · ${disabled} disabled span(s) · ` +
+      `${slotsChecked} chrome slot(s) and ${datesChecked} date(s) in the page's own language · ` +
       `${outside} page(s) outside the language trees, correctly without either`,
   ),
 )

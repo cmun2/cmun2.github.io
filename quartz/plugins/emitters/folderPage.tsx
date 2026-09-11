@@ -20,6 +20,7 @@ import { write } from "./helpers"
 import { i18n, TRANSLATIONS } from "../../i18n"
 import { BuildCtx } from "../../util/ctx"
 import { StaticResources } from "../../util/resources"
+import { LANG_LOCALE, langOfSlug } from "../../i18nSite"
 interface FolderPageOptions extends FullPageLayout {
   sort?: (f1: QuartzPluginData, f2: QuartzPluginData) => number
 }
@@ -71,7 +72,11 @@ function computeFolderInfo(
       defaultProcessedContent({
         slug: joinSegments(folder, "index") as FullSlug,
         frontmatter: {
-          title: `${i18n(locale).pages.folderContent.folder}: ${folder}`,
+          // The title of a generated folder page is invented here, before any
+          // component sees it, so the per-page locale that renderPage threads
+          // through cannot reach it: /en/engineering/ shipped "폴더: ...".
+          // The folder's own path segment is the same source of truth.
+          title: `${i18n(localeOfFolder(folder, locale)).pages.folderContent.folder}: ${folder}`,
           tags: [],
         },
       }),
@@ -87,6 +92,15 @@ function computeFolderInfo(
   }
 
   return folderInfo
+}
+
+/** `en/engineering` -> "en-US". Folders outside a language tree keep the site locale. */
+function localeOfFolder(
+  folder: SimpleSlug,
+  fallback: keyof typeof TRANSLATIONS,
+): keyof typeof TRANSLATIONS {
+  const lang = langOfSlug(folder)
+  return lang ? LANG_LOCALE[lang] : fallback
 }
 
 function _getFolders(slug: FullSlug): SimpleSlug[] {

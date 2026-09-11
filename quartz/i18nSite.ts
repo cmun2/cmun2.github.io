@@ -8,6 +8,8 @@
 
 import { QuartzPluginData } from "./plugins/vfile"
 import { FullSlug, joinSegments } from "./util/path"
+import type { GlobalConfiguration } from "./cfg"
+import type { ValidLocale } from "./i18n"
 
 /** Languages this site publishes. Order is the order shown in the switcher. */
 export const SITE_LANGS = ["ko", "en"] as const
@@ -41,6 +43,20 @@ export const LANG_HREFLANG: Record<SiteLang, string> = {
   en: "en",
 }
 
+/**
+ * The Quartz locale each language renders its *chrome* in — the UI strings
+ * (검색 / Search, 탐색기 / Explorer, 목차 / Table of Contents …) and the date
+ * format.
+ *
+ * `quartz.config.ts` has exactly one global `locale`, because upstream Quartz
+ * assumes a single-language site. `renderPage` swaps this in per page, so a
+ * page's chrome follows its own `lang` rather than the site's.
+ */
+export const LANG_LOCALE: Record<SiteLang, ValidLocale> = {
+  ko: "ko-KR",
+  en: "en-US",
+}
+
 export function isSiteLang(x: unknown): x is SiteLang {
   return typeof x === "string" && (SITE_LANGS as readonly string[]).includes(x)
 }
@@ -54,10 +70,36 @@ export function langOf(data: Pick<QuartzPluginData, "slug" | "frontmatter">): Si
   const fromFrontmatter = data.frontmatter?.lang
   if (isSiteLang(fromFrontmatter)) return fromFrontmatter
 
-  const first = (data.slug ?? "").split("/")[0]
-  if (isSiteLang(first)) return first
+  return langOfSlug(data.slug ?? "")
+}
 
-  return undefined
+/**
+ * The language tree a slug sits in, from its first path segment alone.
+ * Used where there is no frontmatter to consult at all — the folder-page
+ * emitter invents `/en/engineering/index` out of nothing but the path.
+ */
+export function langOfSlug(slug: string): SiteLang | undefined {
+  const first = slug.split("/")[0]
+  return isSiteLang(first) ? first : undefined
+}
+
+/**
+ * The site configuration as a given language's page should see it: identical
+ * except that `locale` is the page's own.
+ *
+ * Returned by value rather than mutated, and returned unchanged when nothing
+ * differs, so the common case allocates nothing. Every Quartz component reads
+ * its strings and date format from `cfg.locale` off the props it is handed —
+ * so threading this one field through `renderPage` translates the whole chrome
+ * without forking a single component.
+ */
+export function localizedCfg(
+  cfg: GlobalConfiguration,
+  lang: SiteLang | undefined,
+): GlobalConfiguration {
+  if (!lang) return cfg
+  const locale = LANG_LOCALE[lang]
+  return locale === cfg.locale ? cfg : { ...cfg, locale }
 }
 
 /** The stable id that pairs a KO page with its EN counterpart. */
