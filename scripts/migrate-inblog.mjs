@@ -28,7 +28,7 @@ import remarkGfm from "remark-gfm"
 import { BY_ID, POSTS } from "./inblog-map.mjs"
 
 const SITEMAP = "https://cmun2.inblog.io/sitemap.xml"
-const DEFAULT_OUT = "/Users/changyong/Documents/Obsidian Vault/Public"
+const DEFAULT_OUT = path.join(VAULT_ROOT, "Public")
 const USER_AGENT =
   "cmun2-blog-migration/1.0 (one-shot personal archive of my own posts; contact via github.com/cmun2)"
 const POLITE_DELAY_MS = 1500

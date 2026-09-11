@@ -7,6 +7,7 @@
  */
 
 import fs from "node:fs/promises"
+import os from "node:os"
 import path from "node:path"
 import url from "node:url"
 import yaml from "js-yaml"
@@ -24,7 +25,8 @@ export const CONTENT_DIR = path.join(REPO_ROOT, "content")
  * plus the guard below make sure nothing from it gets committed except what
  * the sync places in content/.
  */
-export const VAULT_ROOT = "/Users/changyong/Documents/Obsidian Vault"
+export const VAULT_ROOT =
+  process.env.OBSIDIAN_VAULT ?? path.join(os.homedir(), "Documents", "Obsidian Vault")
 
 /**
  * ── GATE 1 of 2 ──────────────────────────────────────────────────────────────
