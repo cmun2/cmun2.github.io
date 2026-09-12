@@ -10,7 +10,7 @@ import fs from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
 import url from "node:url"
-import yaml from "js-yaml"
+import * as yaml from "js-yaml"
 
 const here = path.dirname(url.fileURLToPath(import.meta.url))
 
