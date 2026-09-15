@@ -1,4 +1,6 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+// @ts-ignore
+import glintScript from "./scripts/glint.inline"
 import style from "./styles/footer.scss"
 import { version } from "../../package.json"
 import { i18n } from "../i18n"
@@ -29,5 +31,7 @@ export default ((opts?: Options) => {
   }
 
   Footer.css = style
+  // The footer is on every page, so it is where a site-wide script gets attached.
+  Footer.afterDOMLoaded = glintScript
   return Footer
 }) satisfies QuartzComponentConstructor

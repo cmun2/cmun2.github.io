@@ -340,49 +340,144 @@ tr {
 
 /* ── post list ───────────────────────────────────────────────────────────── */
 
-ul.section-ul {
-  margin-top: 1.75rem;
-  border-top: 1px solid var(--lightgray);
+/* ── the ledger ───────────────────────────────────────────────────────────────
+   The index is a list of records, not a wall of cards. Every knob is a token so
+   the look can be retuned -- or reverted -- without touching the markup.
+
+   Two of these are correctness rather than taste, and the old list had neither:
+   `word-break: keep-all` stops Korean titles breaking mid-word, and
+   `tabular-nums` makes the numbers and dates line up into actual columns.      */
+
+:root {
+  --led-gutter: 3.4rem;       /* the number column */
+  --led-gap: 1.5rem;
+  --led-pad: 1.15rem;
+  --led-title: clamp(1rem, 0.95rem + 0.25vw, 1.14rem);
+  --led-rule: 1px dashed var(--rule-strong);
+  --led-hover: color-mix(in srgb, var(--secondary) 5%, transparent);
+  --led-stagger: 38ms;        /* set to 0ms to switch the entrance off */
 }
 
-li.section-li {
-  margin-bottom: 0;
-  border-bottom: 1px solid var(--lightgray);
+ol.ledger {
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  counter-reset: led;
+  border-top: var(--led-rule);
+}
 
-  & > .section {
-    /* Wider tag column than stock, so two or three tags stay on one line
-       instead of stacking and making every row a different height. */
-    grid-template-columns: fit-content(7em) minmax(0, 1fr) fit-content(16em);
-    align-items: baseline;
-    padding: 0.9rem 0;
-    transition: background-color 0.15s ease;
-  }
+li.led-row {
+  display: grid;
+  grid-template-columns: var(--led-gutter) minmax(0, 1fr);
+  gap: var(--led-gap);
+  align-items: baseline;
+  border-bottom: var(--led-rule);
+  padding: var(--led-pad) 0.55rem;
+  margin: 0;
+  transition: background-color 0.18s ease;
 
-  &:hover > .section {
-    background-color: color-mix(in srgb, var(--secondary) 6%, transparent);
-  }
+  &:hover { background-color: var(--led-hover); }
+}
 
-  & .meta {
+.led-n {
+  color: var(--gray);
+  font-family: var(--codeFont);
+  font-weight: 600;
+  font-size: 0.88rem;
+  /* Without this the digits are proportional and the column visibly wobbles. */
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.led-main { min-width: 0; }
+
+/* Quartz gives every a.internal the wiki-link highlight -- a tinted box with a
+   radius. That is right for a link inside a sentence and wrong for the title of
+   a row, where it draws a slab across the whole column. Both are unset here
+   rather than overridden downstream. */
+a.led-title,
+a.led-title:hover {
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
+a.led-title {
+  display: block;
+  font-size: var(--led-title);
+  font-weight: 600;
+  line-height: 1.42;
+  letter-spacing: -0.01em;
+  color: var(--dark);
+  text-decoration: none;
+  /* Korean has no spaces inside a word; the default breaks them anywhere. */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+
+  li.led-row:hover & { color: var(--secondary); }
+}
+
+.led-meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.42rem;
+  font-family: var(--codeFont);
+  font-size: 0.72rem;
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  color: var(--gray);
+
+  & time { font-variant-numeric: tabular-nums; }
+}
+
+/* The category is the one inverted element on the page, which is why it can be
+   this small and still be the first thing the eye lands on in the row. */
+.led-cat {
+  background-color: var(--dark);
+  color: var(--light);
+  padding: 0.16em 0.5em;
+  font-weight: 600;
+}
+
+/* Tags are quiet text with dot separators, not chips. The category is the one
+   inverted element in the row; a second chip beside it competes with it and the
+   row stops having a focal point. The `.led-tags` prefix outranks TagList's own
+   `a.internal.tag-link` chip rule. */
+.led-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.55rem;
+
+  & a.internal.tag-link {
+    display: inline;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
     color: var(--gray);
-    opacity: 1;
-    white-space: nowrap;
-    margin-right: 1.25rem;
+    font-size: inherit;
+    letter-spacing: inherit;
+    text-decoration: none;
+
+    &::before { content: "· "; color: var(--lightgray); }
+    &:hover { color: var(--secondary); }
   }
+}
 
-  & .desc > h3 {
-    font-size: 1.0625rem;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    line-height: 1.4;
-
-    & > a {
-      color: var(--dark);
-      text-decoration: none;
-    }
+/* Rows arrive in order, briefly. Anyone who has asked not to see motion gets
+   the list already in place -- the stagger is the only thing that is dropped. */
+@media (prefers-reduced-motion: no-preference) {
+  li.led-row {
+    animation: led-in 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+    animation-delay: calc(var(--row, 0) * var(--led-stagger));
   }
-
-  &:hover .desc > h3 > a {
-    color: var(--secondary);
+  @keyframes led-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
   }
 }
 
@@ -560,4 +655,29 @@ figure.diagram {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ── pointer glint ────────────────────────────────────────────────────────────
+   A faint trail under the cursor. It is decoration, so it is behind a switch and
+   it yields to anyone who has asked for less motion. Set --glint: 0 and it never
+   starts -- the script reads this value before it creates anything.             */
+:root { --glint: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --glint: 0; }
+}
+
+canvas.glint-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  /* Never eats a click, never scrolls with the page, never shows up in print. */
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+:root[saved-theme="dark"] canvas.glint-canvas { mix-blend-mode: screen; }
+
+@media print {
+  canvas.glint-canvas { display: none; }
 }
