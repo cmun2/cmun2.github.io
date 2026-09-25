@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@clack/prompts':
-        specifier: ^1.8.0
-        version: 1.8.0
+        specifier: ^1.8.1
+        version: 1.8.1
       '@floating-ui/dom':
         specifier: ^1.7.4
         version: 1.8.0
@@ -18,8 +18,8 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0
       '@napi-rs/simple-git':
-        specifier: 1.1.0
-        version: 1.1.0
+        specifier: 1.2.0
+        version: 1.2.0
       '@tweenjs/tween.js':
         specifier: ^25.0.0
         version: 25.0.0
@@ -66,8 +66,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       js-yaml:
-        specifier: ^5.4.1
-        version: 5.4.1
+        specifier: ^5.4.2
+        version: 5.4.2
       lightningcss:
         specifier: ^1.31.1
         version: 1.33.0
@@ -87,8 +87,8 @@ importers:
         specifier: ^10.1.1
         version: 10.2.6
       pixi.js:
-        specifier: ^8.15.0
-        version: 8.20.1
+        specifier: ^8.21.0
+        version: 8.21.0
       preact:
         specifier: ^10.28.2
         version: 10.29.8(preact-render-to-string@6.7.0)
@@ -153,14 +153,14 @@ importers:
         specifier: ^1.4.1
         version: 1.4.1
       satori:
-        specifier: ^0.33.4
-        version: 0.33.4
+        specifier: ^0.33.5
+        version: 0.33.5
       serve-handler:
         specifier: ^6.1.6
         version: 6.1.7
       sharp:
         specifier: ^0.35.4
-        version: 0.35.4(@types/node@26.5.0)
+        version: 0.35.4(@types/node@26.6.2)
       shiki:
         specifier: ^4.4.3
         version: 4.4.3
@@ -189,8 +189,8 @@ importers:
         specifier: ^8.19.0
         version: 8.21.3
       yargs:
-        specifier: ^18.0.0
-        version: 18.1.0
+        specifier: ^18.2.0
+        version: 18.2.0
     devDependencies:
       '@types/d3':
         specifier: ^7.4.3
@@ -199,8 +199,8 @@ importers:
         specifier: ^3.0.4
         version: 3.0.5
       '@types/node':
-        specifier: ^26.5.0
-        version: 26.5.0
+        specifier: ^26.6.2
+        version: 26.6.2
       '@types/pretty-time':
         specifier: ^1.1.5
         version: 1.1.5
@@ -217,14 +217,14 @@ importers:
         specifier: ^0.28.2
         version: 0.28.2
       prettier:
-        specifier: ^3.8.1
-        version: 3.9.6
+        specifier: ^3.9.8
+        version: 3.9.8
       rehype-remark:
         specifier: ^10.0.1
         version: 10.0.1
       tsx:
-        specifier: ^4.21.0
-        version: 4.23.13
+        specifier: ^4.23.15
+        version: 4.23.15
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -264,12 +264,12 @@ packages:
     peerDependencies:
       '@citation-js/core': ^0.7.0
 
-  '@clack/core@1.5.0':
-    resolution: {integrity: sha512-zNikCcd8BbcEvzzG1sbXFrRHFk5kHPrpwZwksPvf9qyQO1Teb7JaXaOAxXZei9nZLDW0gaZawiuTCji88bTBhw==}
+  '@clack/core@1.5.1':
+    resolution: {integrity: sha512-iHTrHA8MtVuLl2TfZySmcKv1qO2PoyC9Z7pfSDozEuV5vtY3/wcOPKJXlqJ5Oq2Cx5DDGQGAMVx6HZfRRoVEbQ==}
     engines: {node: '>= 20.12.0'}
 
-  '@clack/prompts@1.8.0':
-    resolution: {integrity: sha512-PXzLZ8N34rxmuo4dJg3xtOXhcBse94qGjDqsteoEYrFrrZ5FSjIGwMAuOcv64ln8rHVBBD06XeVGr+/JX+plcA==}
+  '@clack/prompts@1.8.1':
+    resolution: {integrity: sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ==}
     engines: {node: '>= 20.12.0'}
 
   '@emnapi/runtime@1.11.3':
@@ -659,98 +659,98 @@ packages:
     resolution: {integrity: sha512-snM2byzDcqqQbT6FiGeCgkbviJkxsuaUS/x2RiLoMngFC3UEiciM4LcUKDcIygsH70TroRLPzPIevF0LNGBJNA==}
     engines: {node: '>= 10'}
 
-  '@napi-rs/simple-git-android-arm-eabi@1.1.0':
-    resolution: {integrity: sha512-6/2i3G9LJ8TOq5+DrQj5NObP3sOMdBatNxJBFeTpEqe+B6uBjn/3NrVQ2nvp/bfUNLHRSynQQma7QkrMbBRDnQ==}
+  '@napi-rs/simple-git-android-arm-eabi@1.2.0':
+    resolution: {integrity: sha512-WnSWDLbECx/0QfvVpqorUIAAmJ60gSwX/3g0dQwZLNa8RY7oHh/3cQqYRIW0SWv5JD4ckwXvkehVed7LTUKE7g==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [android]
 
-  '@napi-rs/simple-git-android-arm64@1.1.0':
-    resolution: {integrity: sha512-y47tEA1J/0QYIstjqPuQxFTSXhsjE6HMLXW53wB+MJ07jDe5jQK9b//nXnypx4oJ7DbKwUuWZDbrptq3Cdg+DQ==}
+  '@napi-rs/simple-git-android-arm64@1.2.0':
+    resolution: {integrity: sha512-nBfjOUxBzyA82zChLcL9CTBRcCgElYs1lgxymus/v5imZs2+re7tYvTi0rcQ1YdpVmkNZWHiWdngeHxvGzsUvw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [android]
 
-  '@napi-rs/simple-git-darwin-arm64@1.1.0':
-    resolution: {integrity: sha512-XX1W7+NS5scOmxbrkbMQBn6DQ+zCLqbrFFQ8YeSO6KLznLOQe50EAOQOCZAABUBxTBTKJPaq6sBC25vslwrs8A==}
+  '@napi-rs/simple-git-darwin-arm64@1.2.0':
+    resolution: {integrity: sha512-P7wBGhnlFTRTPDqf0mji1tNYBzsa+/VJdIUWqe3Ne+wNzwDYPakzuyO9iHMRKAVBUgbyTgtuKuVWw1G7uEEDsQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@napi-rs/simple-git-darwin-x64@1.1.0':
-    resolution: {integrity: sha512-5BMOxXk31SKcS2ueoOuqe2d/LOvM6BOf2ODrIwELV4KwAxBmPShh69cZHKX7GrbO7FrNGQIeF4Wyz7z2x/w2mA==}
+  '@napi-rs/simple-git-darwin-x64@1.2.0':
+    resolution: {integrity: sha512-qYFRJj61kjWQ5vgBMGfiNuGKl7aTt1fHY4Y+Ra8a7G3g9IQm9Wx4FXebGVoQ6D8kU3hbizzT8mpqopw1QfHipA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@napi-rs/simple-git-freebsd-x64@1.1.0':
-    resolution: {integrity: sha512-CinaCoDXPTIV1SDAgVHSdsYXw93M4fqkekL2qgXpMQPKYEDyIOyWyJ6ciGQWpRAkBxRYPpUYU28McKBa01mbrQ==}
+  '@napi-rs/simple-git-freebsd-x64@1.2.0':
+    resolution: {integrity: sha512-LEU6FS4aLbe6SdAPi7pxN52R36zUeZTC2//xd3ttH4/eu0NFr/Ha4U1Qtb0rMYL7z9UWMU/T7aT6jopTsOH8XQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [freebsd]
 
-  '@napi-rs/simple-git-linux-arm-gnueabihf@1.1.0':
-    resolution: {integrity: sha512-Eg2KdwAyNDGpC74W/0Cnv4lAIUB2Uhg1+KT59mZlELvxdmbJFE4xDCS4Zh50EDK9nS+t45PZhaxmRrxA7whXzg==}
+  '@napi-rs/simple-git-linux-arm-gnueabihf@1.2.0':
+    resolution: {integrity: sha512-G33B6VAF9uf7fSGp2RNL7ZBi4E75uVyqPRccpaDHxZS1RUsoV0PzzHlMi4nJoWdJ5Jnzx+fEvkchMYZ6tjXfZQ==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
 
-  '@napi-rs/simple-git-linux-arm64-gnu@1.1.0':
-    resolution: {integrity: sha512-AYZsGSmd5RR847XqKjpqmwLoT/847GvGIF1OhNqtN4UI16gFMlHU3XO+IMxf6quNgA/bY3ILUI5YGswU8e0Y9g==}
+  '@napi-rs/simple-git-linux-arm64-gnu@1.2.0':
+    resolution: {integrity: sha512-MZQ3J6A0exMNkRNSIjypAwwrpxbsvECMjFPnFraFi8kkDCCALdRVeMmfDYM+DYn6S+/VRK5RCgLsiLFMt288uQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  '@napi-rs/simple-git-linux-arm64-musl@1.1.0':
-    resolution: {integrity: sha512-UanfuFboJWiJ4n5BTUmI28sQ2JjssGExn5jcn8BAQ4CECwHpNVanM1Lmw4xGuQCcULxUCUS6speOA8zz7PaOqA==}
+  '@napi-rs/simple-git-linux-arm64-musl@1.2.0':
+    resolution: {integrity: sha512-/bdgsHtq3GHaeItxLCQ571WU20k6e5lOhbs3nz4Nf3utzhmxiAqi8vmlw5RQpYWAae3LlpZIPr6xXl30ASudRQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  '@napi-rs/simple-git-linux-ppc64-gnu@1.1.0':
-    resolution: {integrity: sha512-EzW2jhtVZYM+N3A0Mc7Ju2+Js8s2HcoK+Cu+TM+XArodnoHNR2VrHVxMG+WY1Ra6pHBd1kyNdHmuSscuo8E60w==}
+  '@napi-rs/simple-git-linux-ppc64-gnu@1.2.0':
+    resolution: {integrity: sha512-HHIPt6QnnmrMkO2MJEUPYfrmSgN5h+GCP9dCcmD72fXlTOHiMmMwC7NaW08h05SK8NMxli/h8E5dxt4WilxvIg==}
     engines: {node: '>= 10'}
     cpu: [ppc64]
     os: [linux]
 
-  '@napi-rs/simple-git-linux-s390x-gnu@1.1.0':
-    resolution: {integrity: sha512-u9J6YYf7BrvNQ2pTLkPyOGdRhTVz/Nl+FtznebKaxuw7QCZYkOlGWbAeJRdBQ2wXNtdqwfcZZZYa93YxwjsMOA==}
+  '@napi-rs/simple-git-linux-s390x-gnu@1.2.0':
+    resolution: {integrity: sha512-hD1YMetNhL7C3LZrnFfjgCCuLePsazYj/lEgnfmGEzqa0n8DPZmpMJ2itoKQcnnf7CnxUFuhJ0NF6hH/bk98kA==}
     engines: {node: '>= 10'}
     cpu: [s390x]
     os: [linux]
 
-  '@napi-rs/simple-git-linux-x64-gnu@1.1.0':
-    resolution: {integrity: sha512-owuVJqIb7HXOokeDSe6ipNv1JOv3MUZlGuKs3bbP/b50iV9Wixx4L7Hsph450ERcmoSmQdiQjU9nyC5wEsdf5w==}
+  '@napi-rs/simple-git-linux-x64-gnu@1.2.0':
+    resolution: {integrity: sha512-E2PKw0ZRQ0RH1odOmW+92dkJg705YTeIhdAr6Tml5lFxRlwvupsxhiXEIPhd5q+S7iYnb8jdI5C+Ye8iNbsFNw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  '@napi-rs/simple-git-linux-x64-musl@1.1.0':
-    resolution: {integrity: sha512-687mjASLaoAkwD9Uu7/tJspV6Np+G6dp/V3CDNssfgl8r/Gdv/hhxC4vE7+QlSeqRJ8cdTl7bA7JKUKxgXQV/A==}
+  '@napi-rs/simple-git-linux-x64-musl@1.2.0':
+    resolution: {integrity: sha512-yQCvgBVJJf6fVl3YwyAJCcV4IW9kn3Ozgz6Fw3bz6mUSjQ6xlsSc7GM+sug5mIdrSHyRpxT8BXiTP4flGYlC9g==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  '@napi-rs/simple-git-win32-arm64-msvc@1.1.0':
-    resolution: {integrity: sha512-REQsy+VMd7JIl4wFvggQE87XmPK3R0nfT7AEys6cU2zyCokogAEkbI2/y/gQLzZ62Evfy0IkdvzWUorS9984DA==}
+  '@napi-rs/simple-git-win32-arm64-msvc@1.2.0':
+    resolution: {integrity: sha512-Ps0CnmHR+XZBfUk8hre7r2vu9eU3Nr8xFj4EWsG1Olia31uBCKlO1pwnbpl5WvkrK/pv7iPpmNSq+5R/tNVPTw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  '@napi-rs/simple-git-win32-ia32-msvc@1.1.0':
-    resolution: {integrity: sha512-FRVBqqizxUqEu/F5Ol7nfwzpp+AZc9+WILu0o0HPDIw6f/o1CmULdH2EocFaYWFzvttguouLMz38sHHtz2eeXg==}
+  '@napi-rs/simple-git-win32-ia32-msvc@1.2.0':
+    resolution: {integrity: sha512-6gwSlunF/5PTcZpQA5WzmuizXmD2inrB/SncktDHhWH/FnU0TP6qVnoGtpShZ2gDptABSaS8DoOouOFx0UaIfA==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
 
-  '@napi-rs/simple-git-win32-x64-msvc@1.1.0':
-    resolution: {integrity: sha512-fN0Ihi8jkdjjHZi4PXaHtVB11RYxBS4ReUICKosNTeA0ROBvOiMsCQW9yWkWtRudNf+mN9Y9OGJHSKbduw2EZQ==}
+  '@napi-rs/simple-git-win32-x64-msvc@1.2.0':
+    resolution: {integrity: sha512-eEj9P8mXyRKzug+7ENehPXnaYAFU7w7CwCRrMPIH0DKoXbm/timiTtdNAOhfLnNp/ZMJVa3gXcl9hfLy3kFPDw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
-  '@napi-rs/simple-git@1.1.0':
-    resolution: {integrity: sha512-u7GiDtu3a5EKh7D0cKYHszWxBWvo8sDEzfv4N/A/4t3FFzu1ctMjz3H8DqlPs2CPrGQOEX2IEY9/f3FAbg9YDA==}
+  '@napi-rs/simple-git@1.2.0':
+    resolution: {integrity: sha512-lsUGiHAJmdijXhHCR8d8W931mguJqV7QqXvBTS82BxYadBpW/ot8tXKObQ+c1N31H0Mz0h6mLm2MIBqRInuXWg==}
     engines: {node: '>= 10'}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -1013,8 +1013,8 @@ packages:
   '@types/nlcst@2.0.3':
     resolution: {integrity: sha512-vSYNSDe6Ix3q+6Z7ri9lyWqgGhJTmzRjZRqyq15N0Z/1/UnVsno9G/N40NBijoYx2seFDIl0+B2mgAb9mezUCA==}
 
-  '@types/node@26.5.0':
-    resolution: {integrity: sha512-dVSGpriSoCgz8WnDNTuSSuSv1PC/ALXihO4ulRZt7Md8k9mlbdin3lGOcDE8SnWOgf513ByWlXd7BK4azmyg/A==}
+  '@types/node@26.6.2':
+    resolution: {integrity: sha512-X1P21scMv4zGKLYqjdGjaKa7COa0RKVYYZZN/NfvLQ1JegxFhdhpZG/Lyn8AXx6CDUavKAd11v6BvfpkDByK8g==}
 
   '@types/pretty-time@1.1.5':
     resolution: {integrity: sha512-5yl+BYwmnRWZb783W8YYoHXvPY8q/rp7ctHBVaGBB9RxlzGpHNJ72tGQMK7TrUSnxzl1dbDcBDuBCSbtfnSQGg==}
@@ -1160,8 +1160,8 @@ packages:
   '@ungap/structured-clone@1.4.0':
     resolution: {integrity: sha512-1mEZtMKPM09vDmQt5y7YvmN2+DFTP7Tg0EWXdic8/C6VRnpb33e4ghisCIE3WZjsE2N8mf+QV1Zqh7ZFYLWInQ==}
 
-  '@webgpu/types@0.1.72':
-    resolution: {integrity: sha512-0cF7RFM2edNoiIS1ODJp0/Gzv4/xSXhwoR0YCza+OWpJWtn4wmo9DvK91aLlH9+uUnwIriP7ZiC3WitmyhuzBw==}
+  '@webgpu/types@0.1.74':
+    resolution: {integrity: sha512-lgiI4hbuLcI9unnm2cL/tvCaQU45dp0xcLWJh5uB/9MBGvIA4F8XIk7nSiBeg+K4xWGYwgZKn80LmERI5CxoTA==}
 
   '@xmldom/xmldom@0.8.15':
     resolution: {integrity: sha512-/5NV/vDALVFDXgLmfsy9TRCBlKwO2LNBFzpzvb9iIj+jR+eSc6DLYYvVOdivT/jm7MtU6TebYuRmzEOI7w40UA==}
@@ -1585,8 +1585,8 @@ packages:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
 
-  get-east-asian-width@1.6.0:
-    resolution: {integrity: sha512-QRbvDIbx6YklUe6RxeTeleMR0yv3cYH6PsPZHcnVn7xv7zO1BHN8r0XETu8n6Ye3Q+ahtSarc3WgtNWmehIBfA==}
+  get-east-asian-width@1.7.0:
+    resolution: {integrity: sha512-XjH1AECxf0giL2V1aU8vKyRR2ppRUb5c0EvT7zuJTokQ74bNo52zOtghqdWIqrhUD79fo3x0WfKZdOqxF6LG1Q==}
     engines: {node: '>=18'}
 
   gifuct-js@2.1.2:
@@ -1771,8 +1771,8 @@ packages:
     resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
     hasBin: true
 
-  js-yaml@5.4.1:
-    resolution: {integrity: sha512-28R/k+NAjeuf7+CKlTxWZVExJGwVVLwY06DgEnOMz2gEpfNkDcD7QvyiVPT0xy0XXhU8vHsd4Ot42OOPdJG7dQ==}
+  js-yaml@5.4.2:
+    resolution: {integrity: sha512-m+aqu+LwO1O6sIopafj8HUVl5aawITwZQe/yHpMCKjaWBaA/d07B/QdMb3529REftiU+RMMHL3Vlsw3hON7vWg==}
     hasBin: true
 
   katex@0.16.47:
@@ -2119,8 +2119,8 @@ packages:
     resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
     engines: {node: '>=12'}
 
-  pixi.js@8.20.1:
-    resolution: {integrity: sha512-akLVBMLvQbaEViqsmVraK0Njer1q4Q4lm4iNKuzvBiFrV8q+6/+HluJN3sWIwO663IBeQtUUS/CaXFJZs6ffXQ==}
+  pixi.js@8.21.0:
+    resolution: {integrity: sha512-GJ/KqBtUuWDBPMQu2D0ZHsRCYOcWRjjKrpyC+3jPQI5JTqHMC5dH8l9sSyvoUT4qJidvRzs1fwFWRWceno2Ltw==}
 
   postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
@@ -2138,8 +2138,8 @@ packages:
       preact-render-to-string:
         optional: true
 
-  prettier@3.9.6:
-    resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
+  prettier@3.9.8:
+    resolution: {integrity: sha512-WRFq3Wn3WId7LLROfMLdH7xaFr2jR62wU8nLO6rQUOLOxNZUviyJQs1M0iIhLexSFy+L+w0ch66wtoO2jRjG0A==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -2391,8 +2391,8 @@ packages:
     engines: {node: '>=20.19.0'}
     hasBin: true
 
-  satori@0.33.4:
-    resolution: {integrity: sha512-dCnaW6D/tkCJxG5UvpZPWnnvfTdGTVVSAq1tzH6xC5MeOhAeeswRcSq5zT7C6lRCdTGow9PRGus7PCzdp5JJYw==}
+  satori@0.33.5:
+    resolution: {integrity: sha512-PNW6ktrQ8SM6kk7u4aOuTkkUewkzyTOrj+QeEzXSsnNMAdff4ire9CAqIz8+4C3rCiBtK8QTELv52AZEd1PbRw==}
     engines: {node: '>=16'}
 
   section-matter@1.0.0:
@@ -2452,8 +2452,8 @@ packages:
     resolution: {integrity: sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ==}
     engines: {node: '>=18'}
 
-  string-width@8.2.2:
-    resolution: {integrity: sha512-GaPUh5gfdrYzqeVNZvUfT23vYYxXzKYidUcnMtJg/3rxRV63EFZy3k6xfKlmfeJD0176lnUV/Usr3XcwSvFzpg==}
+  string-width@8.3.0:
+    resolution: {integrity: sha512-ZbmZM0JCihQN91dWnxoipT2KOEyHqEyfRXUyjuRhW8b/xnqPDoq4gWEVApTVa9db2wN8mmoikgFBbjh71+cGeQ==}
     engines: {node: '>=20'}
 
   string.prototype.codepointat@0.2.1:
@@ -2529,8 +2529,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsx@4.23.13:
-    resolution: {integrity: sha512-BL5MGkRln6aDYhb0xbQlEAGw743BaZYWdbWtdJOBriYJboKgUUYCadFp2/FpBBZquBC/ezNBn7wMMPx7FDZUDw==}
+  tsx@4.23.15:
+    resolution: {integrity: sha512-Yiex1Ovn8z2xPpOWckIiysV1SSyRMY9BkLF++q0yKiDxCqRhosKfMg3janKkiLBwZ5c/YryloKwGZcrEmtwxKw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -2630,8 +2630,8 @@ packages:
     resolution: {integrity: sha512-rwu/ClNdSMpkSrUb+d6BRsSkLUq1fmfsY6TOpYzTwvwkg1/NRG85KBy3kq++A8LKQwX6lsu+aWad+2khvuXrqw==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=23}
 
-  yargs@18.1.0:
-    resolution: {integrity: sha512-2rAgRKu54VsHkqI0/tYkmluGXHD4KW7yZoycuqDQ15QOTnc2VVfy0nN/1eMhnQLO00A+dwtK20xuCnc1YGeUyg==}
+  yargs@18.2.0:
+    resolution: {integrity: sha512-9OpKOLeaoNFecEp7P6iYbzze/5CqWoH7N3SMs/6y1XF4nMvFMspEGZzJ6uFi9MmQwXhyzqYoSEKO3tvA3Z/o2w==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=23}
 
   yoga-layout@3.2.1:
@@ -2676,14 +2676,14 @@ snapshots:
       '@citation-js/date': 0.5.1
       citeproc: 2.4.63
 
-  '@clack/core@1.5.0':
+  '@clack/core@1.5.1':
     dependencies:
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
-  '@clack/prompts@1.8.0':
+  '@clack/prompts@1.8.1':
     dependencies:
-      '@clack/core': 1.5.0
+      '@clack/core': 1.5.1
       fast-string-width: 3.0.2
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
@@ -2948,68 +2948,68 @@ snapshots:
       '@myriaddreamin/typst-ts-node-compiler-win32-arm64-msvc': 0.7.0
       '@myriaddreamin/typst-ts-node-compiler-win32-x64-msvc': 0.7.0
 
-  '@napi-rs/simple-git-android-arm-eabi@1.1.0':
+  '@napi-rs/simple-git-android-arm-eabi@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-android-arm64@1.1.0':
+  '@napi-rs/simple-git-android-arm64@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-darwin-arm64@1.1.0':
+  '@napi-rs/simple-git-darwin-arm64@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-darwin-x64@1.1.0':
+  '@napi-rs/simple-git-darwin-x64@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-freebsd-x64@1.1.0':
+  '@napi-rs/simple-git-freebsd-x64@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-linux-arm-gnueabihf@1.1.0':
+  '@napi-rs/simple-git-linux-arm-gnueabihf@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-linux-arm64-gnu@1.1.0':
+  '@napi-rs/simple-git-linux-arm64-gnu@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-linux-arm64-musl@1.1.0':
+  '@napi-rs/simple-git-linux-arm64-musl@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-linux-ppc64-gnu@1.1.0':
+  '@napi-rs/simple-git-linux-ppc64-gnu@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-linux-s390x-gnu@1.1.0':
+  '@napi-rs/simple-git-linux-s390x-gnu@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-linux-x64-gnu@1.1.0':
+  '@napi-rs/simple-git-linux-x64-gnu@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-linux-x64-musl@1.1.0':
+  '@napi-rs/simple-git-linux-x64-musl@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-win32-arm64-msvc@1.1.0':
+  '@napi-rs/simple-git-win32-arm64-msvc@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-win32-ia32-msvc@1.1.0':
+  '@napi-rs/simple-git-win32-ia32-msvc@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git-win32-x64-msvc@1.1.0':
+  '@napi-rs/simple-git-win32-x64-msvc@1.2.0':
     optional: true
 
-  '@napi-rs/simple-git@1.1.0':
+  '@napi-rs/simple-git@1.2.0':
     optionalDependencies:
-      '@napi-rs/simple-git-android-arm-eabi': 1.1.0
-      '@napi-rs/simple-git-android-arm64': 1.1.0
-      '@napi-rs/simple-git-darwin-arm64': 1.1.0
-      '@napi-rs/simple-git-darwin-x64': 1.1.0
-      '@napi-rs/simple-git-freebsd-x64': 1.1.0
-      '@napi-rs/simple-git-linux-arm-gnueabihf': 1.1.0
-      '@napi-rs/simple-git-linux-arm64-gnu': 1.1.0
-      '@napi-rs/simple-git-linux-arm64-musl': 1.1.0
-      '@napi-rs/simple-git-linux-ppc64-gnu': 1.1.0
-      '@napi-rs/simple-git-linux-s390x-gnu': 1.1.0
-      '@napi-rs/simple-git-linux-x64-gnu': 1.1.0
-      '@napi-rs/simple-git-linux-x64-musl': 1.1.0
-      '@napi-rs/simple-git-win32-arm64-msvc': 1.1.0
-      '@napi-rs/simple-git-win32-ia32-msvc': 1.1.0
-      '@napi-rs/simple-git-win32-x64-msvc': 1.1.0
+      '@napi-rs/simple-git-android-arm-eabi': 1.2.0
+      '@napi-rs/simple-git-android-arm64': 1.2.0
+      '@napi-rs/simple-git-darwin-arm64': 1.2.0
+      '@napi-rs/simple-git-darwin-x64': 1.2.0
+      '@napi-rs/simple-git-freebsd-x64': 1.2.0
+      '@napi-rs/simple-git-linux-arm-gnueabihf': 1.2.0
+      '@napi-rs/simple-git-linux-arm64-gnu': 1.2.0
+      '@napi-rs/simple-git-linux-arm64-musl': 1.2.0
+      '@napi-rs/simple-git-linux-ppc64-gnu': 1.2.0
+      '@napi-rs/simple-git-linux-s390x-gnu': 1.2.0
+      '@napi-rs/simple-git-linux-x64-gnu': 1.2.0
+      '@napi-rs/simple-git-linux-x64-musl': 1.2.0
+      '@napi-rs/simple-git-win32-arm64-msvc': 1.2.0
+      '@napi-rs/simple-git-win32-ia32-msvc': 1.2.0
+      '@napi-rs/simple-git-win32-x64-msvc': 1.2.0
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -3280,7 +3280,7 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/node@26.5.0':
+  '@types/node@26.6.2':
     dependencies:
       undici-types: 8.9.0
 
@@ -3296,7 +3296,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 26.5.0
+      '@types/node': 26.6.2
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -3366,7 +3366,7 @@ snapshots:
 
   '@ungap/structured-clone@1.4.0': {}
 
-  '@webgpu/types@0.1.72': {}
+  '@webgpu/types@0.1.74': {}
 
   '@xmldom/xmldom@0.8.15': {}
 
@@ -3777,7 +3777,7 @@ snapshots:
 
   get-caller-file@2.0.5: {}
 
-  get-east-asian-width@1.6.0: {}
+  get-east-asian-width@1.7.0: {}
 
   gifuct-js@2.1.2:
     dependencies:
@@ -4057,7 +4057,7 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  js-yaml@5.4.1:
+  js-yaml@5.4.2:
     dependencies:
       argparse: 2.0.1
 
@@ -4624,11 +4624,11 @@ snapshots:
   picomatch@4.0.7:
     optional: true
 
-  pixi.js@8.20.1:
+  pixi.js@8.21.0:
     dependencies:
       '@pixi/colord': 2.9.6
       '@types/earcut': 3.0.0
-      '@webgpu/types': 0.1.72
+      '@webgpu/types': 0.1.74
       '@xmldom/xmldom': 0.8.15
       earcut: 3.2.3
       eventemitter3: 5.0.4
@@ -4647,7 +4647,7 @@ snapshots:
     optionalDependencies:
       preact-render-to-string: 6.7.0(preact@10.29.8)
 
-  prettier@3.9.6: {}
+  prettier@3.9.8: {}
 
   pretty-bytes@7.1.3: {}
 
@@ -4984,7 +4984,7 @@ snapshots:
     optionalDependencies:
       '@parcel/watcher': 2.6.0
 
-  satori@0.33.4:
+  satori@0.33.5:
     dependencies:
       '@shuding/opentype.js': 1.4.0-beta.0
       css-background-parser: 0.1.0
@@ -5017,7 +5017,7 @@ snapshots:
       path-to-regexp: 3.3.0
       range-parser: 1.2.0
 
-  sharp@0.35.4(@types/node@26.5.0):
+  sharp@0.35.4(@types/node@26.6.2):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -5048,7 +5048,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.4
       '@img/sharp-win32-ia32': 0.35.4
       '@img/sharp-win32-x64': 0.35.4
-      '@types/node': 26.5.0
+      '@types/node': 26.6.2
 
   shiki@4.4.3:
     dependencies:
@@ -5087,12 +5087,12 @@ snapshots:
   string-width@7.2.0:
     dependencies:
       emoji-regex: 10.6.0
-      get-east-asian-width: 1.6.0
+      get-east-asian-width: 1.7.0
       strip-ansi: 7.2.0
 
-  string-width@8.2.2:
+  string-width@8.3.0:
     dependencies:
-      get-east-asian-width: 1.6.0
+      get-east-asian-width: 1.7.0
       strip-ansi: 7.2.0
 
   string.prototype.codepointat@0.2.1: {}
@@ -5159,7 +5159,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsx@4.23.13:
+  tsx@4.23.15:
     dependencies:
       esbuild: 0.28.2
     optionalDependencies:
@@ -5291,12 +5291,12 @@ snapshots:
 
   yargs-parser@22.0.0: {}
 
-  yargs@18.1.0:
+  yargs@18.2.0:
     dependencies:
       cliui: 9.0.1
       escalade: 3.2.0
       get-caller-file: 2.0.5
-      string-width: 8.2.2
+      string-width: 8.3.0
       y18n: 5.0.8
       yargs-parser: 22.0.0
 
